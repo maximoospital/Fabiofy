@@ -24,4 +24,3 @@ Posta no se que haces aca si no conoces el injoke grupal, es un fork de MrBeasti
 
 [Download Firefox]: http://addons.mozilla.org/en-GB/firefox/addon/youtube-mrbeastify/
 [Download Chrome]: http://chrome.google.com/webstore/detail/youtube-mrbeastify/dbmaeobgdodeimjdjnkipbfhgeldnmeb
-[Download Edge]: #microsoftedge
