@@ -1,13 +1,11 @@
 const imagesPath = "images/";
 var useAlternativeImages
-var flipBlacklist // Stores flipBlackList.js
-var blacklistStatus
 var extensionName = chrome.runtime.getManifest().name;
 
 // Config
 var extensionIsDisabled = false
 var appearChance = 1.00//%
-var flipChance = 0.25//%
+var flipChance = 0.50//%
 
 // Apply the overlay
 function applyOverlay(thumbnailElement, overlayImageURL, flip = false) {
@@ -90,115 +88,12 @@ function applyOverlayToThumbnails() {
         for (let i = 0; i < loops; i++) {
             // Determine the image URL and whether it should be flipped
             let flip = Math.random() < flipChance;
-            let baseImagePath = getRandomImageFromDirectory();
-            if (flip && flipBlacklist && flipBlacklist.includes(baseImagePath)) {
-                if (useAlternativeImages) {
-                    baseImagePath = `textFlipped/${baseImagePath}`;
-                }
-                flip = false;
-            }
-
-            const overlayImageURL = Math.random() < appearChance ?
-                getImageURL(baseImagePath) :
-                ""; // Just set the url to "" if we don't want MrBeast to appear lol
+            const overlayImageURL = chrome.runtime.getURL(`images/1.png`); // Just set the url to "" if we don't want MrBeast to appear lol
 
             applyOverlay(thumbnailElement, overlayImageURL, flip);
         }
     });
 
-}
-
-// Get the URL of an image
-function getImageURL(index) {
-    return chrome.runtime.getURL(`${imagesPath}${index}.png`);
-}
-
-// Checks if an image exists in the image folder
-async function checkImageExistence(index) {
-    const testedURL = getImageURL(index)
-
-    return fetch(testedURL)
-        .then(() => {
-            return true
-        }).catch(error => {
-            return false
-        })
-}
-
-////////////////////////
-//  BrandonXLF Magic  //
-////////////////////////
-
-// Defines the N size of last images that will not be repeated.
-const size_of_non_repeat = 8
-// List of the index of the last N selected images.
-const last_indexes = Array(size_of_non_repeat)
-
-// Get a random image URL from a directory
-function getRandomImageFromDirectory() {
-    let randomIndex = -1
-
-    // It selects a random index until it finds one that is not repeated
-    while (last_indexes.includes(randomIndex) || randomIndex < 0) {
-        randomIndex = Math.floor(Math.random() * highestImageIndex) + 1;
-    }
-
-    // When it finds the non repeating index, it eliminates the oldest value, and pushes the current index
-    last_indexes.shift()
-    last_indexes.push(randomIndex)
-
-    return randomIndex
-}
-
-var highestImageIndex;
-// Gets the highest index of an image in the image folder starting from 1
-async function getHighestImageIndex() {
-    // Avoid exponential search for smaller values
-    let i = 4;
-
-    // Increase i until i is greater than the number of images
-    while (await checkImageExistence(i)) {
-        i *= 2;
-    }
-
-    // Possible min and max values
-    let min = i <= 4 ? 1 : i / 2;
-    let max = i;
-
-    // Binary search
-    while (min <= max) {
-        // Find the midpoint of possible max and min
-        let mid = Math.floor((min + max) / 2);
-
-        // Check if the midpoint exists
-        if (await checkImageExistence(mid)) {
-            // If it does, next min to check is one greater
-            min = mid + 1;
-        } else {
-            // If it doesn't, max must be at least one less
-            max = mid - 1;
-        }
-    }
-
-    // Max is the size of the image array
-    highestImageIndex = max;
-}
-////////////////////////
-//  BrandonXLF Magic  //
-////////////////////////
-
-function GetFlipBlocklist() {
-    fetch(chrome.runtime.getURL(`${imagesPath}flip_blacklist.json`))
-        .then(response => response.json())
-        .then(data => {
-            useAlternativeImages = data.useAlternativeImages;
-            flipBlacklist = data.blacklistedImages;
-
-            blacklistStatus = "Flip blacklist found. " + (useAlternativeImages ? "Images will be substituted." : "Images won't be flipped.")
-        })
-        .catch((error) => {
-            blacklistStatus = "No flip blacklist found. Proceeding without it."
-        });
 }
 
 async function LoadConfig() {
@@ -244,19 +139,9 @@ async function Main() {
 
     if (extensionIsDisabled) {
         console.log(`${extensionName} is disabled.`)
-        return // Exit the function if MrBeastify is disabled
+        return // Exit the function if Fabiofy is disabled
     }
-
-    GetFlipBlocklist()
-    console.log(`${extensionName} will now detect the amount of images. Ignore all the following errors.`)
-    getHighestImageIndex()
-        .then(() => {
-            setInterval(applyOverlayToThumbnails, 100);
-            console.log(
-                `${extensionName} Loaded Successfully. ${highestImageIndex} images detected. ${blacklistStatus}.`
-            );
-
-        })
+    setInterval(applyOverlayToThumbnails, 100);
 }
 
 Main()
