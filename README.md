@@ -19,5 +19,5 @@ Posta no se que haces aca si no conoces el injoke grupal, es un fork de MrBeasti
 
 [Button Download Chrome]: https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logoColor=white&logo=GoogleChrome
 
-[Download Firefox]: http://addons.mozilla.org/en-GB/firefox/addon/youtube-mrbeastify/
-[Download Chrome]: http://chrome.google.com/webstore/detail/youtube-mrbeastify/dbmaeobgdodeimjdjnkipbfhgeldnmeb
+[Download Firefox]: https://addons.mozilla.org/es/firefox/addon/fabiofy/
+[Download Chrome]: https://chromewebstore.google.com/detail/pbfbjpbgmipgadliabehnjbilklhjffd/preview?hl=es
