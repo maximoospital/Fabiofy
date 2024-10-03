@@ -1,6 +1,6 @@
 <div align = center>
 
-# MrBeastify
+# Fabiofy
 
 Necesitas mas Fabio en tu Youtube?
 
@@ -10,7 +10,6 @@ Posta no se que haces aca si no conoces el injoke grupal, es un fork de MrBeasti
 
 [![Button Download Firefox]][Download Firefox]  
 [![Button Download Chrome]][Download Chrome]  
-[![Button Download Edge]][Download Edge]
 
 </div>
 
@@ -20,8 +19,5 @@ Posta no se que haces aca si no conoces el injoke grupal, es un fork de MrBeasti
 
 [Button Download Chrome]: https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logoColor=white&logo=GoogleChrome
 
-[Button Download Edge]: https://img.shields.io/badge/Edge-0078D7?style=for-the-badge&logoColor=white&logo=MicrosoftEdge&color=grey
-
-[Download Firefox]: http://addons.mozilla.org/en-GB/firefox/addon/youtube-mrbeastify/
-[Download Chrome]: http://chrome.google.com/webstore/detail/youtube-mrbeastify/dbmaeobgdodeimjdjnkipbfhgeldnmeb
-[Download Edge]: #microsoftedge
+[Download Firefox]: https://addons.mozilla.org/es/firefox/addon/fabiofy/
+[Download Chrome]: https://chromewebstore.google.com/detail/pbfbjpbgmipgadliabehnjbilklhjffd/preview?hl=es
