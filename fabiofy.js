@@ -4,6 +4,8 @@ var extensionName = chrome.runtime.getManifest().name;
 
 // Config
 var extensionIsDisabled = false
+var oldManFabio = false
+var animatedFabio = false
 var appearChance = 1.00//%
 var flipChance = 0.50//%
 
@@ -76,6 +78,8 @@ function FindThumbnails() {
     });
 }
 
+
+
 // Looks for all thumbnails and applies overlay
 function applyOverlayToThumbnails() {
     thumbnailElements = FindThumbnails()
@@ -88,17 +92,66 @@ function applyOverlayToThumbnails() {
         for (let i = 0; i < loops; i++) {
             // Determine the image URL and whether it should be flipped
             let flip = Math.random() < flipChance;
-            const overlayImageURL = chrome.runtime.getURL(`images/1.png`); // Just set the url to "" if we don't want MrBeast to appear lol
-
+            let overlayImageURL;
+            if (oldManFabio && Math.random() < 0.5) {
+                overlayImageURL = chrome.runtime.getURL(`images/2.png`);
+            } else {
+                overlayImageURL = chrome.runtime.getURL(`images/1.png`);
+            }
+            if (Math.random() < 0.01) {
+                overlayImageURL = chrome.runtime.getURL(`images/3.png`);
+            }
             applyOverlay(thumbnailElement, overlayImageURL, flip);
         }
     });
 
 }
 
+function handleIntersection(entries, observer) {
+    entries.forEach(entry => {
+        const overlay = entry.target.querySelector(`#${extensionName}-video-overlay`);
+        if (overlay) {
+            if (entry.isIntersecting) {
+                overlay.style.display = 'block';
+            } else {
+                overlay.style.display = 'none';
+            }
+        }
+    });
+}
+
+function applyOverlayToVideos() {
+    const videos = document.querySelectorAll('div.html5-video-container');
+    
+    videos.forEach((video) => {
+        // Check if overlay already exists
+        if (video.parentElement.querySelector(`#${extensionName}-video-overlay`)) {
+            return;
+        }
+
+        // Create overlay
+        const overlayImage = document.createElement("img");
+        overlayImage.id = `${extensionName}-video-overlay`;
+        overlayImage.src = chrome.runtime.getURL(`images/animated.gif`);
+        overlayImage.style.position = "absolute";
+        overlayImage.style.top = overlayImage.style.left = "50%";
+        overlayImage.style.width = "100%";
+        overlayImage.style.transform = `translate(-50%, 0%)`; // Center and flip the image
+        overlayImage.style.zIndex = "16"; // Ensure overlay is on top but below the time indicator
+
+        // In order to save memory, remove the overlay when it's covered by the thumbnail-container
+
+
+        // Insert overlay in video
+        video.insertBefore(overlayImage, video.firstChild /*Makes sure the image doesn't cover any info, but still overlays the original thumbnail*/ );
+    });
+}
+
 async function LoadConfig() {
     const df /* default */ = {
         extensionIsDisabled: extensionIsDisabled,
+        oldManFabio: oldManFabio,
+        animatedFabio: animatedFabio,
         appearChance: appearChance,
         flipChance: flipChance
     }
@@ -107,6 +160,8 @@ async function LoadConfig() {
         const config = await new Promise((resolve, reject) => {
             chrome.storage.local.get({
                 extensionIsDisabled,
+                oldManFabio,
+                animatedFabio,
                 appearChance,
                 flipChance
             }, (result) => {
@@ -118,6 +173,8 @@ async function LoadConfig() {
 
         // Initialize variables based on loaded configuration
         extensionIsDisabled = config.extensionIsDisabled || df.extensionIsDisabled;
+        oldManFabio = config.oldManFabio || df.oldManFabio;
+        animatedFabio = config.animatedFabio || df.animatedFabio;
         appearChance = config.appearChance || df.appearChance;
         flipChance = config.flipChance || df.flipChance;
 
@@ -142,6 +199,9 @@ async function Main() {
         return // Exit the function if Fabiofy is disabled
     }
     setInterval(applyOverlayToThumbnails, 100);
+    if (animatedFabio) {
+        setInterval(applyOverlayToVideos, 100);
+    }
 }
 
 Main()
