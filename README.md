@@ -1,14 +1,13 @@
 <div align = center>
 
-# Fabiofy
+# Yermify
 
-Necesitas mas Fabio en tu Youtube?
+Necesitas mas Yermi en tu Youtube?
 
 **No se diga mas.**
 
 Posta no se que haces aca si no conoces el injoke grupal, es un fork de MrBeastify para un chiste de los pibes.
 
-[![Button Download Firefox]][Download Firefox]  
 [![Button Download Chrome]][Download Chrome]  
 
 </div>

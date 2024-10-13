@@ -1,11 +1,11 @@
 {
     "manifest_version": 2,
-    "name": "Fabiofy",
+    "name": "Yermify",
     "version": "1.0",
     "icons": {
         "96": "icon.png"
     },
-    "description": "Modify YouTube thumbnails to include Fabio",
+    "description": "Modify YouTube thumbnails to include Yermi",
     "browser_action": {
         "default_popup": "settings.html"
     },
@@ -15,7 +15,7 @@
     ],
     "content_scripts": [{
         "matches": ["*://*.youtube.com/*"],
-        "js": ["fabiofy.js"],
+        "js": ["yermify.js"],
         "run_at": "document_idle"
     }],
     "web_accessible_resources": [
