@@ -5,7 +5,6 @@ var extensionName = chrome.runtime.getManifest().name;
 // Config
 var extensionIsDisabled = false
 var oldManFabio = false
-var animatedFabio = false
 var appearChance = 1.00//%
 var flipChance = 0.50//%
 
@@ -151,7 +150,6 @@ async function LoadConfig() {
     const df /* default */ = {
         extensionIsDisabled: extensionIsDisabled,
         oldManFabio: oldManFabio,
-        animatedFabio: animatedFabio,
         appearChance: appearChance,
         flipChance: flipChance
     }
@@ -161,7 +159,6 @@ async function LoadConfig() {
             chrome.storage.local.get({
                 extensionIsDisabled,
                 oldManFabio,
-                animatedFabio,
                 appearChance,
                 flipChance
             }, (result) => {
@@ -174,7 +171,6 @@ async function LoadConfig() {
         // Initialize variables based on loaded configuration
         extensionIsDisabled = config.extensionIsDisabled || df.extensionIsDisabled;
         oldManFabio = config.oldManFabio || df.oldManFabio;
-        animatedFabio = config.animatedFabio || df.animatedFabio;
         appearChance = config.appearChance || df.appearChance;
         flipChance = config.flipChance || df.flipChance;
 
@@ -199,9 +195,6 @@ async function Main() {
         return // Exit the function if Fabiofy is disabled
     }
     setInterval(applyOverlayToThumbnails, 100);
-    if (animatedFabio) {
-        setInterval(applyOverlayToVideos, 100);
-    }
 }
 
 Main()

@@ -1,6 +1,5 @@
 var extensionIsDisabled
 var oldManFabio
-var animatedFabio
 var appearChance
 var flipChance
 
@@ -9,13 +8,11 @@ function loadSettings() {
     chrome.storage.local.get({
         extensionIsDisabled: false,
         oldManFabio: false,
-        animatedFabio: false,
         appearChance: 1.00,
         flipChance: 0.25
     }, function (data) {
         document.getElementById('disableExtension').checked = !data.extensionIsDisabled;
         document.getElementById('oldManFabio').checked = data.oldManFabio;
-        document.getElementById('animatedFabio').checked = data.animatedFabio;
         document.getElementById('appearChance').value = data.appearChance * 100;
         document.getElementById('flipChance').value = data.flipChance * 100;
     });
@@ -25,7 +22,6 @@ function saveSettings() {
     const data = {
         extensionIsDisabled: !document.getElementById('disableExtension').checked,
         oldManFabio: document.getElementById('oldManFabio').checked,
-        animatedFabio: document.getElementById('animatedFabio').checked,
         appearChance: parseFloat(document.getElementById('appearChance').value) / 100,
         flipChance: parseFloat(document.getElementById('flipChance').value) / 100
     };
@@ -57,7 +53,6 @@ document.addEventListener('DOMContentLoaded', loadSettings);
 // Add input event listeners to all input fields to trigger autosave
 document.getElementById('disableExtension').addEventListener('input', saveSettings);
 document.getElementById('oldManFabio').addEventListener('input', saveSettings);
-document.getElementById('animatedFabio').addEventListener('input', saveSettings);
 document.getElementById('appearChance').addEventListener('input', saveSettings);
 document.getElementById('flipChance').addEventListener('input', saveSettings);
 
