@@ -4,7 +4,6 @@ var extensionName = chrome.runtime.getManifest().name;
 
 // Config
 var extensionIsDisabled = false
-var oldManFabio = false
 var appearChance = 1.00//%
 var flipChance = 0.50//%
 
@@ -92,18 +91,49 @@ function applyOverlayToThumbnails() {
             // Determine the image URL and whether it should be flipped
             let flip = Math.random() < flipChance;
             let overlayImageURL;
-            if (oldManFabio && Math.random() < 0.5) {
-                overlayImageURL = chrome.runtime.getURL(`images/2.png`);
-            } else {
-                overlayImageURL = chrome.runtime.getURL(`images/1.png`);
-            }
-            if (Math.random() < 0.01) {
+            const random = Math.random();
+            if (random < 0.15) {
+                overlayImageURL = chrome.runtime.getURL(`images/4.png`);
+            } else if (random < 0.155) {
                 overlayImageURL = chrome.runtime.getURL(`images/3.png`);
+            } else if (random < 0.16) {
+                overlayImageURL = chrome.runtime.getURL(`images/5.png`);
+            } else if (random < 0.58) {
+                overlayImageURL = chrome.runtime.getURL(`images/1.png`);
+            } else {
+                overlayImageURL = chrome.runtime.getURL(`images/2.png`);
             }
+            
             applyOverlay(thumbnailElement, overlayImageURL, flip);
         }
     });
 
+}
+
+function applyOverlayToShorts() {
+    const shorts = document.querySelectorAll('img.yt-core-image.ShortsLockupViewModelHostThumbnail');
+    shorts.forEach((short) => {
+        // Check if overlay already exists
+        if (short.parentElement.querySelector(`#${extensionName}-shorts-overlay`)) {
+            return;
+        }
+
+        // Create overlay
+        const overlayImage = document.createElement("img");
+        overlayImage.id = `${extensionName}-shorts-overlay`;
+        overlayImage.src = chrome.runtime.getURL(`images/shorts.png`);
+        overlayImage.style.position = "absolute";
+        overlayImage.style.top = overlayImage.style.left = "50%";
+        overlayImage.style.width = "100%";
+        overlayImage.style.transform = `translate(-50%, -40%)`; // Center and flip the image
+        overlayImage.style.zIndex = "16"; // Ensure overlay is on top but below the time indicator
+
+        // In order to save memory, remove the overlay when it's covered by the thumbnail-container
+
+
+        // Insert overlay in video
+        short.parentElement.insertBefore(overlayImage, short.firstChild /*Makes sure the image doesn't cover any info, but still overlays the original thumbnail*/ );
+    });
 }
 
 function handleIntersection(entries, observer) {
@@ -119,37 +149,37 @@ function handleIntersection(entries, observer) {
     });
 }
 
-function applyOverlayToVideos() {
-    const videos = document.querySelectorAll('div.html5-video-container');
-    
-    videos.forEach((video) => {
-        // Check if overlay already exists
-        if (video.parentElement.querySelector(`#${extensionName}-video-overlay`)) {
-            return;
-        }
-
-        // Create overlay
-        const overlayImage = document.createElement("img");
-        overlayImage.id = `${extensionName}-video-overlay`;
-        overlayImage.src = chrome.runtime.getURL(`images/animated.gif`);
-        overlayImage.style.position = "absolute";
-        overlayImage.style.top = overlayImage.style.left = "50%";
-        overlayImage.style.width = "100%";
-        overlayImage.style.transform = `translate(-50%, 0%)`; // Center and flip the image
-        overlayImage.style.zIndex = "16"; // Ensure overlay is on top but below the time indicator
-
-        // In order to save memory, remove the overlay when it's covered by the thumbnail-container
-
-
-        // Insert overlay in video
-        video.insertBefore(overlayImage, video.firstChild /*Makes sure the image doesn't cover any info, but still overlays the original thumbnail*/ );
-    });
-}
+//
+// function applyOverlayToVideos() {
+//    const videos = document.querySelectorAll('div.html5-video-container');
+//    
+//    videos.forEach((video) => {
+//        // Check if overlay already exists
+//        if (video.parentElement.querySelector(`#${extensionName}-video-overlay`)) {
+//            return;
+//        }
+//
+//        // Create overlay
+//        const overlayImage = document.createElement("img");
+//        overlayImage.id = `${extensionName}-video-overlay`;
+//        overlayImage.src = chrome.runtime.getURL(`images/animated.gif`);
+//        overlayImage.style.position = "absolute";
+//        overlayImage.style.top = overlayImage.style.left = "50%";
+//        overlayImage.style.width = "100%";
+//        overlayImage.style.transform = `translate(-50%, 0%)`; // Center and flip the image
+//        overlayImage.style.zIndex = "16"; // Ensure overlay is on top but below the time indicator
+//
+//        // In order to save memory, remove the overlay when it's covered by the thumbnail-container
+//
+//
+//        // Insert overlay in video
+//        video.insertBefore(overlayImage, video.firstChild /*Makes sure the image doesn't cover any info, but still overlays the original thumbnail*/ );
+//    });
+// }
 
 async function LoadConfig() {
     const df /* default */ = {
         extensionIsDisabled: extensionIsDisabled,
-        oldManFabio: oldManFabio,
         appearChance: appearChance,
         flipChance: flipChance
     }
@@ -158,7 +188,6 @@ async function LoadConfig() {
         const config = await new Promise((resolve, reject) => {
             chrome.storage.local.get({
                 extensionIsDisabled,
-                oldManFabio,
                 appearChance,
                 flipChance
             }, (result) => {
@@ -170,7 +199,6 @@ async function LoadConfig() {
 
         // Initialize variables based on loaded configuration
         extensionIsDisabled = config.extensionIsDisabled || df.extensionIsDisabled;
-        oldManFabio = config.oldManFabio || df.oldManFabio;
         appearChance = config.appearChance || df.appearChance;
         flipChance = config.flipChance || df.flipChance;
 
@@ -195,6 +223,7 @@ async function Main() {
         return // Exit the function if Fabiofy is disabled
     }
     setInterval(applyOverlayToThumbnails, 100);
+    setInterval(applyOverlayToShorts, 100);
 }
 
 Main()
