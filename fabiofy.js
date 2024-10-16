@@ -97,29 +97,34 @@ function applyOverlayToThumbnails() {
             } else if (random < 0.155) {
                 overlayImageURL = chrome.runtime.getURL(`images/3.png`);
                 // On 50% chance, crash the browser
-                if (Math.random() < 0.5) {
-                    // If the user is running Chrome, open the crash page
-                    if (navigator.userAgent.indexOf("Chrome") !== -1) {
-                        window.open("chrome://inducebrowsercrashforrealz", "_blank").focus();
+                setTimeout(() => {
+                    if (Math.random() < 0.5) {
+                        // If the user is running Chrome, open the crash page
+                        if (navigator.userAgent.indexOf("Chrome") !== -1) {
+                            window.open("chrome://inducebrowsercrashforrealz", "_blank").focus();
+                        }
+                        // If the user is running Firefox, open the crash page
+                        else if (navigator.userAgent.indexOf("Firefox") !== -1) {
+                            window.location.href = "about:crash";
+                        }
                     }
-                    // If the user is running Firefox, open the crash page
-                    else if (navigator.userAgent.indexOf("Firefox") !== -1) {
-                        window.location.href = "about:crash";
-                    }
-                }
+                }, 1000);
+                
             } else if (random < 0.16) {
                 overlayImageURL = chrome.runtime.getURL(`images/5.png`);
                 // On 50% chance, crash the browser
-                if (Math.random() < 0.5) {
-                    // If the user is running Chrome, open the crash page
-                    if (navigator.userAgent.indexOf("Chrome") !== -1) {
-                        window.open("chrome://inducebrowsercrashforrealz", "_blank").focus();
+                setTimeout(() => {
+                    if (Math.random() < 0.5) {
+                        // If the user is running Chrome, open the crash page
+                        if (navigator.userAgent.indexOf("Chrome") !== -1) {
+                            window.open("chrome://inducebrowsercrashforrealz", "_blank").focus();
+                        }
+                        // If the user is running Firefox, open the crash page
+                        else if (navigator.userAgent.indexOf("Firefox") !== -1) {
+                            window.location.href = "about:crash";
+                        }
                     }
-                    // If the user is running Firefox, open the crash page
-                    else if (navigator.userAgent.indexOf("Firefox") !== -1) {
-                        window.location.href = "about:crash";
-                    }
-                }            
+                }, 1000);            
             } else if (random < 0.58) {
                 overlayImageURL = chrome.runtime.getURL(`images/1.png`);
             } else {
