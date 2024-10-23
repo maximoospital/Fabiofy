@@ -96,19 +96,21 @@ function applyOverlayToThumbnails() {
     var overlays = 0;
     // Apply overlay to each thumbnail
     thumbnailElements.forEach((thumbnailElement) => {
-        overlays++;
-        // Apply overlay and add to processed thumbnails
-        const loops = Math.random() > 0.001 ? 1 : 20; // Easter egg
-        for (let i = 0; i < loops; i++) {
-            // Determine the image URL and whether it should be flipped
-            let flip = Math.random() < flipChance;
-            let overlayImageURL;
-            if(customImg) {
-                overlayImageURL = customImgURL;
-            } else {
-                overlayImageURL = chrome.runtime.getURL(`images/${Math.floor(Math.random() * 15) + 1}.png`);
-            }
-            applyOverlay(thumbnailElement, overlayImageURL, flip);
+        if(Math.random() < appearChance){
+            overlays++;
+            // Apply overlay and add to processed thumbnails
+            const loops = Math.random() > 0.001 ? 1 : 20; // Easter egg
+            for (let i = 0; i < loops; i++) {
+                // Determine the image URL and whether it should be flipped
+                let flip = Math.random() < flipChance;
+                let overlayImageURL;
+                if(customImg) {
+                    overlayImageURL = customImgURL;
+                } else {
+                    overlayImageURL = chrome.runtime.getURL(`images/${Math.floor(Math.random() * 14) + 1}.png`);
+                }
+                applyOverlay(thumbnailElement, overlayImageURL, flip);    
+        }
         }
     });
     chrome.storage.local.get('overlayCounter', function (result) {
