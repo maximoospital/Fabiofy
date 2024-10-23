@@ -80,10 +80,33 @@
 
         <br><br>
 
+        <!-- Add this after the other settings controls -->
+        <div class="setting">
+            <label>
+                <input type="checkbox" id="customImg">
+                Use Custom Image
+            </label>
+        </div>
+
+        <div class="setting">
+            <label>
+                Custom Image:
+                <input type="file" id="customImgURL" accept="image/*">
+            </label>
+        </div>
+
+        <br><br>
+
         <!-- Flip Chance Input -->
         <label>
             Flip Chance (%):
             <input type="number" id="flipChance" min="0" max="100" step="5" />
+        </label>
+
+        <br><br>
+        <label>
+            Fabio Count:
+            <span id="overlayCounter">Loading...</span>
         </label>
 
     </div>
