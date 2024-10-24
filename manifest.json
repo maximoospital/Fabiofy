@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Fabiofy",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "icons": {
         "96": "icon.png"
     },

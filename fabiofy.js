@@ -158,6 +158,15 @@ function handleIntersection(entries, observer) {
     });
 }
 
+function recolorProgressBar(){
+    // Find the element with the classes .ytp-cairo-refresh-signature-moments .ytp-play-progress 
+    // Find the element with the classes .ytp-cairo-refresh-signature-moments .ytp-play-progress
+    const progressBar = document.querySelector('.ytp-play-progress.ytp-swatch-background-color'); 
+    if (progressBar){
+        progressBar.style.background = 'linear-gradient(to right, #b127ff, #b127ff)';
+        progressBar.style.backgroundColor = '#b127ff';
+    };
+}
 
 function applyOverlayToVideos() {
     const videos = document.querySelectorAll('#inline-preview-player > div.html5-video-container');
@@ -235,6 +244,8 @@ async function Main() {
         return // Exit the function if Fabiofy is disabled
     }
     setInterval(applyOverlayToThumbnails, 100);
+    recolorProgressBar();
+    recolorLogo();
     if(!customImg){
         setInterval(applyOverlayToVideos, 100);
         setInterval(applyOverlayToShorts, 100);    
