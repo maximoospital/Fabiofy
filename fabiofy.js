@@ -107,7 +107,7 @@ function applyOverlayToThumbnails() {
                 if(customImg) {
                     overlayImageURL = customImgURL;
                 } else {
-                    overlayImageURL = chrome.runtime.getURL(`images/${Math.floor(Math.random() * 14) + 1}.png`);
+                    overlayImageURL = chrome.runtime.getURL(`images/${Math.floor(Math.random() * 15) + 1}.png`);
                 }
                 applyOverlay(thumbnailElement, overlayImageURL, flip);    
         }
